@@ -1,5 +1,28 @@
 // Assignment code here
 
+// var PasswordCriteria = {
+//   upperCase: "ABCDEFGHIKLMNOPQRSTVXYZ",
+//   lowerCase: "abcdefghijklmnopqrstuvwxyz",
+//   numeric: "0123456789",
+//   specialCharacters: " !\"#$%&'()*+,-./:;<=>?@[\]^_`{|}~",
+// }
+
+// var userPassword = {
+//   lowerCase: false,
+//   upperCase: false,
+//   numeric: false,
+//   specialCharacters: false,
+//   setCriteria: function(lowerCase, upperCase, numeric, specialCharacters) {
+//     this.lowerCase = lowerCase;
+//     this.upperCase = upperCase;
+//     this.numeric = numeric;
+//     this.specialCharacters = specialCharacters;
+//   },
+//   setPassword: function(){
+    
+//   }
+// }
+
 var errorMessages = {
   passwordLengthError: function(passwordLength){
     if(passwordLength < 8){
@@ -34,7 +57,21 @@ var generatePassword = function() {
     var lowerCase = confirm("Would you like your password to have lower case characters?");
     var upperCase = confirm("Would you like your password to have upper case characters?");
     var numeric = confirm("Would you like your password to have numeric characters?");
-    var specialCharacters = confirm("Would you like your password to have special characters?");
+    var specialCharacter = confirm("Would you like your password to have special characters?");
+
+    var allCharacters = [
+      {character: "lowerCase", prefer: lowerCase}, 
+      {character: "upperCase", prefer: upperCase}, 
+      {character: "numeric", prefer: numeric}, 
+      {character: "specialCharacter", prefer: specialCharacter}
+    ];
+    var userPreference = [];
+    for (let i = 0; i < allCharacters.length; i++) {
+      if(allCharacters[i].prefer){
+        userPreference.push(allCharacters[i]);
+      }
+    }
+    console.log(userPreference)
 
   }
 
