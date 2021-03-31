@@ -11,7 +11,7 @@ var userPassword = {
     this.specialCharacter.prefer = specialCharacter;
   },
   getPreferredType: function () {
-    // return all character types that have prefer values to be true
+    // Return all character types that have prefer property set to  true
     var characterTypes = ['lowerCase', 'upperCase', 'numeric', 'specialCharacter'];
     var preferredCharacterTypes = [];
     for (var i = 0; i < characterTypes.length; i++) {
@@ -46,7 +46,7 @@ var isPasswordLengthValid = function (length) {
   return false;
 }
 
-// The purpose of this function is to save a number of 
+// The purpose of this function is to reserve a number of 
 // random position(s) within the password characters to contain
 // at least one of each charactype requested by the user
 const randomPositionGenerator = (numberOfPositions, rangeLength, preferredCharacterTypes) => { 
@@ -84,14 +84,15 @@ var randomCharacters = function (numberOfRandomPositions, passwordLength, prefer
 
   for(var i = 0; i < passwordLength; i++) {        
     var isRandomPosition = false; 
-    // For every position of the password characters
+    // For every position in the password string
     // check to verify if that position matches one of 
-    // the generated random positions
+    // the default random positions
     for(var j = 0; j < randomPositions.length; j++){            
       if(i === randomPositions[j].position){
         // If it matches 
         // store the corresponding characters from the randomPositions array
         var characterType =  randomPositions[j].values;
+        // Generate a random character from the chosen character type
         var randomCharacter = characterType.charAt(Math.floor(Math.random() * characterType.length));  
         // Add a random from the character type             
         results += randomCharacter;   
@@ -99,7 +100,7 @@ var randomCharacters = function (numberOfRandomPositions, passwordLength, prefer
         isRandomPosition = true; // Prevent the results from being overided
         
         // Extra code to better understand how the randomCharacters function works           
-        console.log(`The random character was ${randomCharacter}, took position ${i}, with the type ${randomPositions[j].type}`);            
+        //console.log(`The random character was ${randomCharacter}, took position ${i}, with the type ${randomPositions[j].type}`);            
       }        
     }        
     if(!isRandomPosition) {  
