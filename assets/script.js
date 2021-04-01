@@ -49,7 +49,7 @@ var isPasswordLengthValid = function (length) {
 // The purpose of this function is to reserve a number of 
 // random position(s) within the password characters to contain
 // at least one of each charactype requested by the user
-const randomPositionGenerator = (numberOfPositions, rangeLength, preferredCharacterTypes) => { 
+const defaultRandomPositionGen = (numberOfPositions, rangeLength, preferredCharacterTypes) => { 
   // Set a range of numbers from 0 to x, where x > 0
   var range = [];   
   for (var i = 0; i < rangeLength; i++) { 
@@ -57,7 +57,7 @@ const randomPositionGenerator = (numberOfPositions, rangeLength, preferredCharac
   }
 
   // Pick a random element from the range array
-  // all elements must be distinct from one another
+  // All numbers selected must be distinct from one another
   var results = [] ;   
   for (var i = 0; i < numberOfPositions; i++) { 
     // Pick a random element from range
@@ -68,30 +68,31 @@ const randomPositionGenerator = (numberOfPositions, rangeLength, preferredCharac
       position: currentRangeElement, 
       values: preferredCharacterTypes[i].values
     })
-    // Update range to prevent duplicate positions in the results array        
+    // Remove the currentRangeElement from range 
+    // to prevent duplicate values in the results array        
     range = range.filter(x => x !== currentRangeElement);
   } 
   return results;
 }
 
 // Randomly generate characters based on the user preference
-var randomCharacters = function (numberOfRandomPositions, passwordLength, preferredCharacterTypes) {
+var randomCharacters = function (numberOfdefaultRandomPositions, passwordLength, preferredCharacterTypes) {
   var results = '';
 
   // Generate a random position for each type chosen by the user
   // This will make the password have at least one of each character from the preferred type
-  var randomPositions = randomPositionGenerator(numberOfRandomPositions, passwordLength, preferredCharacterTypes);
+  var defaultRandomPositions = defaultRandomPositionGen(numberOfdefaultRandomPositions, passwordLength, preferredCharacterTypes);
 
   for(var i = 0; i < passwordLength; i++) {        
     var isRandomPosition = false; 
     // For every position in the password string
     // check to verify if that position matches one of 
     // the default random positions
-    for(var j = 0; j < randomPositions.length; j++){            
-      if(i === randomPositions[j].position){
+    for(var j = 0; j < defaultRandomPositions.length; j++){            
+      if(i === defaultRandomPositions[j].position){
         // If it matches 
-        // store the corresponding characters from the randomPositions array
-        var characterType =  randomPositions[j].values;
+        // store the corresponding characters from the defaultRandomPositions array
+        var characterType =  defaultRandomPositions[j].values;
         // Generate a random character from the chosen character type
         var randomCharacter = characterType.charAt(Math.floor(Math.random() * characterType.length));  
         // Add a random from the character type             
@@ -100,11 +101,11 @@ var randomCharacters = function (numberOfRandomPositions, passwordLength, prefer
         isRandomPosition = true; // Prevent the results from being overided
         
         // Extra code to better understand how the randomCharacters function works           
-        //console.log(`The random character was ${randomCharacter}, took position ${i}, with the type ${randomPositions[j].type}`);            
+        //console.log(`The random character was ${randomCharacter}, took position ${i}, with the type ${defaultRandomPositions[j].type}`);            
       }        
     }        
     if(!isRandomPosition) {  
-      // If the position "i" was not found in the randomPositions array           
+      // If the position "i" was not found in the defaultRandomPositions array           
       var characterType = preferredCharacterTypes[Math.floor(Math.random() * preferredCharacterTypes.length)];
       results += characterType.values.charAt(Math.floor(Math.random() * characterType.values.length));    
     }    
